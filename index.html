@@ -51,15 +51,38 @@
                 renderLinks();
             });
 
-            function saveLinks() {
-                fetch('links.json', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(links)
-                });
-            }
+            // function saveLinks() {
+            //     fetch('links.json', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify(links)
+            //     });
+            // }
+            // Update the saveLinks function
+function saveLinks() {
+    console.log("***********************")
+  fetch('/api/links', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(links)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to save links');
+    }
+    console.log('Links saved successfully');
+  })
+  .catch(error => {
+    console.error('Error saving links:', error);
+  });
+}
+
+
+            
 
             function renderLinks() {
                 linkTableBody.innerHTML = '';
