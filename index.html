@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Link Saver</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Website Link Saver</h1>
+        <form id="linkForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="link">Link:</label>
+                <input type="text" id="link" name="link" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Link</button>
+        </form>
+        <table id="linkTable" class="link-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Links will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('linkForm');
+            const linkTableBody = document.querySelector('#linkTable tbody');
+
+            let links = [];
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const link = document.getElementById('link').value;
+
+                const newLink = { name, link };
+                links.push(newLink);
+                saveLinks();
+                renderLinks();
+            });
+
+            function saveLinks() {
+                fetch('links.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(links)
+                });
+            }
+
+            function renderLinks() {
+                linkTableBody.innerHTML = '';
+                links.forEach(linkObj => {
+                    const tr = document.createElement('tr');
+
+                    const nameTd = document.createElement('td');
+                    nameTd.textContent = linkObj.name;
+
+                    const linkTd = document.createElement('td');
+                    const linkAnchor = document.createElement('a');
+                    linkAnchor.href = linkObj.link;
+                    linkAnchor.textContent = linkObj.link;
+                    linkAnchor.target = '_blank';
+
+                    linkTd.appendChild(linkAnchor);
+                    tr.appendChild(nameTd);
+                    tr.appendChild(linkTd);
+                    linkTableBody.appendChild(tr);
+                });
+            }
+
+            fetch('links.json')
+                .then(response => response.json())
+                .then(data => {
+                    links = data;
+                    renderLinks();
+                })
+                .catch(error => {
+                    console.error('Error fetching links:', error);
+                });
+        });
+
+	</script>
+</body>
+</html>
