@@ -25,12 +25,23 @@ exports.handler = async function(event, context) {
         });
 
         const data = await response.json();
+        
+        // Debugging info
+        console.log('GitHub API response:', data);
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ url: data.html_url })
-        };
+        if (response.ok) {
+            return {
+                statusCode: 200,
+                body: JSON.stringify({ url: data.html_url })
+            };
+        } else {
+            return {
+                statusCode: response.status,
+                body: JSON.stringify({ error: data.message || 'Failed to create gist' })
+            };
+        }
     } catch (error) {
+        console.error('Error:', error);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: 'Failed to create gist' })
