@@ -1,2 +1,8 @@
 [build]
-  functions = "js"
+  functions = "js"  # Directory for Netlify functions
+  publish = "."     # Directory to publish
+
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

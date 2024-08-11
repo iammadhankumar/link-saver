@@ -1,6 +1,6 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
-exports.handler = async function(event, context) {
+export async function handler(event) {
     const { linkName, linkURL } = JSON.parse(event.body);
 
     const gistData = {
@@ -26,7 +26,6 @@ exports.handler = async function(event, context) {
 
         const data = await response.json();
         
-        // Debugging info
         console.log('GitHub API response:', data);
 
         if (response.ok) {
@@ -47,4 +46,4 @@ exports.handler = async function(event, context) {
             body: JSON.stringify({ error: 'Failed to create gist' })
         };
     }
-};
+}
