@@ -16,9 +16,17 @@ async function saveLink() {
             },
             body: JSON.stringify({ linkName, linkURL })
         });
-        console.log(response);
-        const data = await response.json();
-        console.log(data);
+
+        // Check if the response is JSON
+        const contentType = response.headers.get('Content-Type');
+        let data;
+
+        if (contentType && contentType.includes('application/json')) {
+            data = await response.json();
+        } else {
+            // Handle unexpected content types
+            data = { error: 'Invalid response format' };
+        }
 
         if (response.ok) {
             alert('Link saved successfully!');
