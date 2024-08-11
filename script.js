@@ -9,7 +9,7 @@ async function saveLink() {
     }
 
     try {
-        const response = await fetch('/.js/createGist', {
+        const response = await fetch('/js/createGist', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
