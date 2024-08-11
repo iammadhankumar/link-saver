@@ -3,119 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Link Saver</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Link Saver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .link-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+        .link-form input, .link-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        .link-form button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .link-form button:hover {
+            background-color: #0056b3;
+        }
+        .link-list {
+            width: 100%;
+            max-width: 400px;
+        }
+        .link-list a {
+            display: block;
+            padding: 10px;
+            background-color: #fff;
+            margin: 5px 0;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #007BFF;
+            border: 1px solid #ddd;
+        }
+        .link-list a:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Website Link Saver</h1>
-        <form id="linkForm">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="link">Link:</label>
-                <input type="text" id="link" name="link" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Save Link</button>
-        </form>
-        <table id="linkTable" class="link-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Link</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Links will be inserted here -->
-            </tbody>
-        </table>
+    <h1>Link Saver</h1>
+    <div class="link-form">
+        <input type="text" id="linkName" placeholder="Enter link name" required>
+        <input type="url" id="linkURL" placeholder="Enter link URL" required>
+        <button onclick="saveLink()">Save Link</button>
+    </div>
+    <div class="link-list" id="linkList">
+        <!-- Links will be displayed here -->
     </div>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('linkForm');
-            const linkTableBody = document.querySelector('#linkTable tbody');
-
-            let links = [];
-
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('name').value;
-                const link = document.getElementById('link').value;
-
-                const newLink = { name, link };
-                links.push(newLink);
-                saveLinks();
-                renderLinks();
-            });
-
-            // function saveLinks() {
-            //     fetch('links.json', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         },
-            //         body: JSON.stringify(links)
-            //     });
-            // }
-            // Update the saveLinks function
-function saveLinks() {
-    console.log("***********************")
-  fetch('/api/links', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(links)
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Failed to save links');
-    }
-    console.log('Links saved successfully');
-  })
-  .catch(error => {
-    console.error('Error saving links:', error);
-  });
-}
-
-
-            
-
-            function renderLinks() {
-                linkTableBody.innerHTML = '';
-                links.forEach(linkObj => {
-                    const tr = document.createElement('tr');
-
-                    const nameTd = document.createElement('td');
-                    nameTd.textContent = linkObj.name;
-
-                    const linkTd = document.createElement('td');
-                    const linkAnchor = document.createElement('a');
-                    linkAnchor.href = linkObj.link;
-                    linkAnchor.textContent = linkObj.link;
-                    linkAnchor.target = '_blank';
-
-                    linkTd.appendChild(linkAnchor);
-                    tr.appendChild(nameTd);
-                    tr.appendChild(linkTd);
-                    linkTableBody.appendChild(tr);
-                });
-            }
-
-            fetch('links.json')
-                .then(response => response.json())
-                .then(data => {
-                    links = data;
-                    renderLinks();
-                })
-                .catch(error => {
-                    console.error('Error fetching links:', error);
-                });
-        });
-
-	</script>
+    <script src="script.js"></script>
 </body>
 </html>
