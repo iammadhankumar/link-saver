@@ -7,72 +7,46 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            max-width: 600px;
+            margin: auto;
         }
-        h1 {
-            color: #333;
-        }
-        .link-form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 20px;
-        }
-        .link-form input, .link-form button {
+        input[type="text"] {
             width: 100%;
             padding: 10px;
-            margin: 5px 0;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+            margin: 10px 0;
             box-sizing: border-box;
         }
-        .link-form button {
-            background-color: #007BFF;
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
         }
-        .link-form button:hover {
-            background-color: #0056b3;
+        button:hover {
+            background-color: #45a049;
         }
-        .link-list {
-            width: 100%;
-            max-width: 400px;
-        }
-        .link-list a {
+        #linkList a {
             display: block;
-            padding: 10px;
-            background-color: #fff;
             margin: 5px 0;
-            border-radius: 4px;
             text-decoration: none;
             color: #007BFF;
-            border: 1px solid #ddd;
         }
-        .link-list a:hover {
-            background-color: #f0f0f0;
+        #linkList a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>Link Saver</h1>
-    <div class="link-form">
-        <input type="text" id="linkName" placeholder="Enter link name" required>
-        <input type="url" id="linkURL" placeholder="Enter link URL" required>
-        <button onclick="saveLink()">Save Link</button>
-    </div>
-    <div class="link-list" id="linkList">
-        <!-- Links will be displayed here -->
-    </div>
+    <h1>Save Your Links</h1>
+    <input type="text" id="linkName" placeholder="Enter link name">
+    <input type="text" id="linkURL" placeholder="Enter link URL">
+    <button onclick="saveLink()">Save Link</button>
 
-    <script src="createGist.js"></script>
+    <h2>Saved Links</h2>
+    <div id="linkList"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
