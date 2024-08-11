@@ -1,31 +1,50 @@
-const fetch = require('node-fetch');
+// Function to handle saving the link
+async function saveLink() {
+    const linkName = document.getElementById('linkName').value;
+    const linkURL = document.getElementById('linkURL').value;
 
-exports.handler = async function(event, context) {
-    const { linkName, linkURL } = JSON.parse(event.body);
+    if (!linkName || !linkURL) {
+        alert('Please enter both a link name and URL.');
+        return;
+    }
 
-    const gistData = {
-        description `Link ${linkName}`,
-        public false,
-        files {
-            [`${linkName}.txt`] {
-                content linkURL
-            }
+    try {
+        const response = await fetch('/.netlify/functions/createGist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ linkName, linkURL })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Link saved successfully!');
+            displayLink(linkName, linkURL);
+            clearForm();
+        } else {
+            alert(`Failed to save the link: ${data.error}`);
         }
-    };
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An unexpected error occurred while saving the link.');
+    }
+}
 
-    const response = await fetch('httpsapi.github.comgists', {
-        method 'POST',
-        headers {
-            'Authorization' `token ${process.env.GITHUB_TOKEN}`,
-            'Accept' 'applicationvnd.github.v3+json',
-            'Content-Type' 'applicationjson'
-        },
-        body JSON.stringify(gistData)
-    });
+// Function to display the saved link on the page
+function displayLink(name, url) {
+    const linkList = document.getElementById('linkList');
+    const linkElement = document.createElement('a');
+    linkElement.href = url;
+    linkElement.textContent = name;
+    linkElement.target = '_blank';  // Opens link in a new tab
+    linkElement.rel = 'noopener noreferrer';  // Security best practice
+    linkList.appendChild(linkElement);
+}
 
-    const data = await response.json();
-    return {
-        statusCode 200,
-        body JSON.stringify({ url data.html_url })
-    };
-};
+// Function to clear the input fields after saving
+function clearForm() {
+    document.getElementById('linkName').value = '';
+    document.getElementById('linkURL').value = '';
+}
