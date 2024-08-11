@@ -9,7 +9,7 @@ async function saveLink() {
     }
 
     try {
-        const response = await fetch('/.netlify/functions/createGist', {
+        const response = await fetch('/createGist', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
