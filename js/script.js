@@ -1,5 +1,5 @@
 // require('dotenv').config({ path: '../.env' }); 
-import fetch from 'node-fetch';
+const fetch = require('node-fetch');
 
 
 
