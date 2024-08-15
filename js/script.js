@@ -1,5 +1,5 @@
 // require('dotenv').config({ path: '../.env' }); 
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 
 
 async function getLinks() {
