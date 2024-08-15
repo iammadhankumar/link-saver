@@ -34,8 +34,8 @@ async function getLinks() {
 
 async function saveLink() {
     console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
-    const gistToken = process.env.NEXT_PUBLIC_GIST_TOKEN;
-    const token = process.env.NEXT_PUBLIC_TOKEN;
+    const gistToken = import.meta.env.GIST_TOKEN;
+    const token = import.meta.env.TOKEN;
     console.log("Gist Token:", gistToken);
     console.log("Token:", token);
     const name = document.getElementById('websiteName').value;
