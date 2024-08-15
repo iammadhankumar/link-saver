@@ -1,5 +1,7 @@
 // require('dotenv').config({ path: '../.env' }); 
 // import fetch from 'node-fetch';
+const Dotenv = require('dotenv-webpack');
+
 
 
 
