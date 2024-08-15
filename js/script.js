@@ -1,5 +1,5 @@
 // require('dotenv').config({ path: '../.env' }); 
-import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
 
 
 
@@ -119,3 +119,5 @@ async function updateGist(newLinks) {
         console.error('Error:', error.message);
     }
 }
+
+console.log("RES ",getLinks())
