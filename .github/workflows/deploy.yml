@@ -1,0 +1,38 @@
+name: Example Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  example:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Use GIST_TOKEN and TOKEN
+      run: |
+        echo "GIST_TOKEN is set"
+        echo "TOKEN is set"
+        echo "GIST_TOKEN value: ${{ secrets.GIST_TOKEN }}"
+        echo "TOKEN value: ${{ secrets.TOKEN }}"
+      env:
+        GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+        TOKEN: ${{ secrets.TOKEN }}
+
+    - name: Deploy
+      run: npm run deploy
+      env:
+        GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+        TOKEN: ${{ secrets.TOKEN }}
