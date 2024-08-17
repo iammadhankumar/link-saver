@@ -11,8 +11,6 @@ async function getLinks() {
 
         const fileContent = gist.files['links.json'].content;
 
-        console.log("FILE CONTENT ",fileContent)
-
         // Check if the content is a valid JSON string
         if (!fileContent) {
             throw new Error("The content of 'links.json' is empty or undefined.");
@@ -25,14 +23,44 @@ async function getLinks() {
     }
 }
 
+// Function to render the table with the fetched links
+function renderTable() {
+    const tableBody = document.querySelector("#linkTable tbody");
+    tableBody.innerHTML = ""; // Clear any existing rows
+
+    if (links.length === 0) {
+        tableBody.innerHTML = "<tr><td colspan='2'>No links available</td></tr>";
+        return;
+    }
+
+    links.forEach(link => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="name-column">${link.name}</td>
+            <td class="url-column"><a href="${link.url}" target="_blank">${link.url}</a></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
+    links = await getLinks();
+    renderTable();
+});
+
 async function saveLink() {
-    console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
     const name = document.getElementById('websiteName').value;
     const url = document.getElementById('websiteURL').value;
     const messageDiv = document.getElementById('message');
 
     if (!name || !url) {
         messageDiv.innerHTML = "Please enter both a website name and URL.";
+        messageDiv.style.color = "red";
+        return;
+    }
+
+    if (!isValidURL(url)) {
+        messageDiv.innerHTML = "Please enter a valid URL.";
         messageDiv.style.color = "red";
         return;
     }
@@ -48,6 +76,16 @@ async function saveLink() {
         messageDiv.innerHTML = "Failed to save the link.";
         messageDiv.style.color = "red";
         console.error(error);
+    }
+}
+
+// Function to validate URL
+function isValidURL(url) {
+    try {
+        new URL(url);
+        return true;
+    } catch (e) {
+        return false;
     }
 }
 
@@ -85,7 +123,6 @@ async function updateGist(newLinks) {
         }
 
         // Step 2: Append the new data using push
-        console.log("existingContent ", existingContent)
         existingContent.push(newLinks);
 
         // Step 3: Update the Gist with the appended content
@@ -106,7 +143,10 @@ async function updateGist(newLinks) {
 
         if (updateResponse.ok) {
             const updatedGist = await updateResponse.json();
-            console.log(`Gist updated successfully: ${updatedGist.html_url}`);
+            console.log(`Gist updated successfully`);
+                // Fetch updated links and re-render the table
+            links = await getLinks();
+            renderTable();
         } else {
             throw new Error('Failed to update the Gist: ' + updateResponse.statusText);
         }
@@ -114,5 +154,3 @@ async function updateGist(newLinks) {
         console.error('Error:', error.message);
     }
 }
-
-console.log("RES ",getLinks())
