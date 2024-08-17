@@ -1,14 +1,7 @@
-// require('dotenv').config({ path: '../.env' }); 
-// import fetch from 'node-fetch';
-const Dotenv = require('dotenv-webpack');
-
-
-
 
 async function getLinks() {
     try {
-        url=`https://api.github.com/gists/${process.env.GIST_TOKEN}`
-        const response = await fetch(`https://api.github.com/gists/${process.env.GIST_TOKEN}`);
+        const response = await fetch(`https://api.github.com/gists/f576f82efa6a00428faf550df3ac1a36`);
         const gist = await response.json();
 
         // Check if the 'links.json' file exists
@@ -66,7 +59,7 @@ async function saveLink() {
 async function updateGist(newLinks) {
     try {
         // Step 1: Fetch the existing content
-        const fetchResponse = await fetch(`https://api.github.com/gists/${process.env.GIST_TOKEN}`, {
+        const fetchResponse = await fetch(`https://api.github.com/gists/f576f82efa6a00428faf550df3ac1a36`, {
             headers: {
                 'Authorization': `token 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`
             }
@@ -100,10 +93,10 @@ async function updateGist(newLinks) {
         existingContent.push(newLinks);
 
         // Step 3: Update the Gist with the appended content
-        const updateResponse = await fetch(`https://api.github.com/gists/${process.env.GIST_TOKEN}`, {
+        const updateResponse = await fetch(`https://api.github.com/gists/f576f82efa6a00428faf550df3ac1a36`, {
             method: 'PATCH',
             headers: {
-                'Authorization': `token ${process.env.TOKEN}`,
+                'Authorization': `token TOKEN=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`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
