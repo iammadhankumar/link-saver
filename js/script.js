@@ -92,7 +92,7 @@ async function updateGist(newLinks) {
         const updateResponse = await fetch(`https://api.github.com/gists/f576f82efa6a00428faf550df3ac1a36`, {
             method: 'PATCH',
             headers: {
-                'Authorization': `token TOKEN=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`,
+                'Authorization': `token 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`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
