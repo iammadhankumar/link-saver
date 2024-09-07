@@ -1,3 +1,4 @@
+let links = [];
 
 async function getLinks() {
     try {
@@ -72,6 +73,10 @@ async function saveLink() {
         messageDiv.style.color = "green";
         document.getElementById('websiteName').value = '';
         document.getElementById('websiteURL').value = '';
+
+        // Fetch updated links and re-render the table
+        links = await getLinks();
+        renderTable();
     } catch (error) {
         messageDiv.innerHTML = "Failed to save the link.";
         messageDiv.style.color = "red";
@@ -144,9 +149,6 @@ async function updateGist(newLinks) {
         if (updateResponse.ok) {
             const updatedGist = await updateResponse.json();
             console.log(`Gist updated successfully`);
-                // Fetch updated links and re-render the table
-            links = await getLinks();
-            renderTable();
         } else {
             throw new Error('Failed to update the Gist: ' + updateResponse.statusText);
         }
