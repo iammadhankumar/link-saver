@@ -118,6 +118,7 @@
         }
 
         const text = await response.text();
+        console.log("RESPONSE ",text)
         const lines = text.split('\n');
         const tableBody = document.querySelector('#links-table tbody');
         tableBody.innerHTML = ''; // Clear previous content
