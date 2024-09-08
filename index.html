@@ -14,7 +14,7 @@
 
     .container {
       width: 90%;
-      max-width: 800px;
+      max-width: 1000px;
       margin: 50px auto;
       background-color: #fff;
       padding: 20px;
@@ -25,6 +25,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: auto; /* Allows table to adjust column widths */
     }
 
     table, th, td {
@@ -34,6 +35,7 @@
     th, td {
       padding: 12px;
       text-align: left;
+      word-wrap: break-word; /* Allows long words or URLs to break and fit within cells */
     }
 
     th {
@@ -45,6 +47,7 @@
       background-color: #f9f9f9;
     }
 
+    /* Responsive design for mobile devices */
     @media (max-width: 600px) {
       table, thead, tbody, th, td, tr {
         display: block;
@@ -67,6 +70,7 @@
         position: relative;
         padding-left: 50%;
         text-align: right;
+        word-wrap: break-word; /* Breaks long URLs on small screens */
       }
 
       td::before {
