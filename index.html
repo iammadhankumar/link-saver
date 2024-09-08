@@ -20,6 +20,25 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .navigate-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .navigate-button:hover {
+      background-color: #0056b3;
     }
 
     table {
@@ -94,6 +113,7 @@
 <body>
 
   <div class="container">
+    <a href="https://github.com/iammadhankumar/link-saver/edit/main/md/links.md" class="navigate-button" target="_blank">Add Link</a>
     <h2>Link Manager</h2>
     <table id="links-table">
       <thead>
