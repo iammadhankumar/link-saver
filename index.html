@@ -46,19 +46,29 @@
     }
 
     @media (max-width: 600px) {
-      th, td {
+      table, thead, tbody, th, td, tr {
         display: block;
-        width: 100%;
-        box-sizing: border-box;
       }
-      th {
-        display: none;
+
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
       }
+
+      tr {
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        background-color: #fff;
+      }
+
       td {
         border: none;
         position: relative;
         padding-left: 50%;
+        text-align: right;
       }
+
       td::before {
         content: attr(data-label);
         position: absolute;
@@ -67,6 +77,7 @@
         padding: 8px;
         font-weight: bold;
         background-color: #f9f9f9;
+        text-align: left;
       }
     }
   </style>
@@ -74,7 +85,7 @@
 <body>
 
   <div class="container">
-    <h2>Links from Markdown File</h2>
+    <h2>Link Manager</h2>
     <table id="links-table">
       <thead>
         <tr>
@@ -90,10 +101,14 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      const rawUrl = 'https://raw.githubusercontent.com/iammadhankumar/link-saver/main/md/links.md';
-      
+      const apiUrl = 'https://api.github.com/repos/iammadhankumar/link-saver/contents/md/links.md';
+
       try {
-        const response = await fetch(rawUrl);
+        const response = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/vnd.github.v3.raw'
+          }
+        });
         if (!response.ok) {
           throw new Error(`Error fetching file: ${response.status}`);
         }
@@ -113,6 +128,9 @@
 
             nameCell.textContent = name.trim();
             urlCell.innerHTML = `<a href="${url.trim()}" target="_blank">${url.trim()}</a>`;
+
+            nameCell.setAttribute('data-label', 'Link Name');
+            urlCell.setAttribute('data-label', 'Link URL');
 
             row.appendChild(nameCell);
             row.appendChild(urlCell);
