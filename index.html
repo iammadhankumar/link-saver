@@ -47,7 +47,12 @@
       background-color: #f9f9f9;
     }
 
-    /* Responsive design for mobile devices */
+    .no-records {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+    }
+
     @media (max-width: 600px) {
       table, thead, tbody, th, td, tr {
         display: block;
@@ -101,6 +106,7 @@
         <!-- Links will be populated here -->
       </tbody>
     </table>
+    <div id="no-records" class="no-records" style="display: none;">No records found</div>
   </div>
 
   <script>
@@ -118,30 +124,36 @@
         }
 
         const text = await response.text();
-        console.log("RESPONSE ",text)
-        const lines = text.split('\n');
+        const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
         const tableBody = document.querySelector('#links-table tbody');
+        const noRecordsDiv = document.querySelector('#no-records');
         tableBody.innerHTML = ''; // Clear previous content
 
-        // Parse and add links to the table
-        lines.forEach(line => {
-          const [name, url] = line.split('|');
-          if (name && url) {
-            const row = document.createElement('tr');
-            const nameCell = document.createElement('td');
-            const urlCell = document.createElement('td');
+        if (lines.length === 0) {
+          noRecordsDiv.style.display = 'block'; // Show "No records found" message
+        } else {
+          noRecordsDiv.style.display = 'none'; // Hide "No records found" message
+          
+          // Parse and add links to the table
+          lines.forEach(line => {
+            const [name, url] = line.split('|');
+            if (name && url) {
+              const row = document.createElement('tr');
+              const nameCell = document.createElement('td');
+              const urlCell = document.createElement('td');
 
-            nameCell.textContent = name.trim();
-            urlCell.innerHTML = `<a href="${url.trim()}" target="_blank">${url.trim()}</a>`;
+              nameCell.textContent = name.trim();
+              urlCell.innerHTML = `<a href="${url.trim()}" target="_blank">${url.trim()}</a>`;
 
-            nameCell.setAttribute('data-label', 'Link Name');
-            urlCell.setAttribute('data-label', 'Link URL');
+              nameCell.setAttribute('data-label', 'Link Name');
+              urlCell.setAttribute('data-label', 'Link URL');
 
-            row.appendChild(nameCell);
-            row.appendChild(urlCell);
-            tableBody.appendChild(row);
-          }
-        });
+              row.appendChild(nameCell);
+              row.appendChild(urlCell);
+              tableBody.appendChild(row);
+            }
+          });
+        }
       } catch (error) {
         console.error('Error fetching or parsing file:', error);
       }
