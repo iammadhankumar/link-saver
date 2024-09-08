@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Display Links from GitHub</title>
+  <title>Links Table</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
       margin: 0;
       padding: 0;
     }
-    
+
     .container {
       width: 90%;
       max-width: 800px;
@@ -21,30 +21,30 @@
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    
+
     table {
       width: 100%;
       border-collapse: collapse;
     }
-    
+
     table, th, td {
       border: 1px solid #ddd;
     }
-    
+
     th, td {
       padding: 12px;
       text-align: left;
     }
-    
+
     th {
       background-color: #007bff;
       color: white;
     }
-    
+
     tr:nth-child(even) {
       background-color: #f9f9f9;
     }
-    
+
     @media (max-width: 600px) {
       th, td {
         display: block;
@@ -74,7 +74,7 @@
 <body>
 
   <div class="container">
-    <h2>Links from GitHub Markdown</h2>
+    <h2>Links from Markdown File</h2>
     <table id="links-table">
       <thead>
         <tr>
@@ -83,44 +83,41 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Table rows will be added here dynamically -->
+        <!-- Links will be populated here -->
       </tbody>
     </table>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      const githubRepoOwner = 'your-github-username';
-      const githubRepoName = 'your-repo-name';
-      const markdownFilePath = './md/links.md'; // Path to your Markdown file in the repository
-
+      const rawUrl = 'https://raw.githubusercontent.com/iammadhankumar/link-saver/main/md/links.md';
+      
       try {
-        const response = await fetch(`https://raw.githubusercontent.com/${githubRepoOwner}/${githubRepoName}/main/${markdownFilePath}`);
+        const response = await fetch(rawUrl);
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`Error fetching file: ${response.status}`);
         }
 
         const text = await response.text();
         const lines = text.split('\n');
-        const links = lines.map(line => {
-          const [name, url] = line.split('|');
-          return { name, url };
-        }).filter(link => link.name && link.url);
-
         const tableBody = document.querySelector('#links-table tbody');
         tableBody.innerHTML = ''; // Clear previous content
-        
-        links.forEach(link => {
-          const row = document.createElement('tr');
-          const nameCell = document.createElement('td');
-          const urlCell = document.createElement('td');
-          
-          nameCell.textContent = link.name;
-          urlCell.innerHTML = `<a href="${link.url}" target="_blank">${link.url}</a>`;
-          
-          row.appendChild(nameCell);
-          row.appendChild(urlCell);
-          tableBody.appendChild(row);
+
+        // Parse and add links to the table
+        lines.forEach(line => {
+          const [name, url] = line.split('|');
+          if (name && url) {
+            const row = document.createElement('tr');
+            const nameCell = document.createElement('td');
+            const urlCell = document.createElement('td');
+
+            nameCell.textContent = name.trim();
+            urlCell.innerHTML = `<a href="${url.trim()}" target="_blank">${url.trim()}</a>`;
+
+            row.appendChild(nameCell);
+            row.appendChild(urlCell);
+            tableBody.appendChild(row);
+          }
         });
       } catch (error) {
         console.error('Error fetching or parsing file:', error);
