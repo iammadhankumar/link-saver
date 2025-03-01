@@ -8,3 +8,4 @@ Interview preperation materials|https://drive.google.com/drive/folders/1SkCOcAS0
 Portfolio|https://tunis-nextjs.netlify.app/ 
 KAFKA|https://github.com/RameshMF/springboot-kafka-course/blob/main/springboot-kafka-tutorial
 ORACLE CAREER PAGE|https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobsearch/my-profile/sign-in
+MAP VS FLATMAP|https://howtodoinjava.com/java8/stream-map-vs-flatmap/
